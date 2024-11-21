@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}My App{% endblock %}</title>
+    <link id="theme-stylesheet" rel="stylesheet" 
+          href="{{ url_for('static', filename='css/' + theme + '.css') }}">
+    {% block head %}{% endblock %}
+</head>
+<body>
+    <nav>
+        <!-- Navigation bar -->
+        <button id="toggle-theme">Toggle Theme</button>
+    </nav>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    <script>
+        document.getElementById('toggle-theme').addEventListener('click', () => {
+            const currentTheme = document.getElementById('theme-stylesheet').getAttribute('href').includes('dark') ? 'dark' : 'light';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.cookie = `theme=${newTheme}; path=/`; // Store in a cookie
+            location.reload(); // Reload page to apply the theme
+        });
+    </script>
+</body>
+</html>
