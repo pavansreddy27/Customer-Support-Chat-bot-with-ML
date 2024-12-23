@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Delivery Apps</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #f6f7f5, #fda085);
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            margin: 20px 0;
+            color: #333;
+            font-size: 2rem;
+        }
+
+        /* Logout Button */
+        .logout-button {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 10px 20px;
+            border: 2px solid white;
+            border-radius: 5px;
+            color: white;
+            background-color: #333;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .logout-button:hover {
+            background-color: white;
+            color: #333;
+        }
+
+        .apps-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .app {
+            text-align: center;
+            background-color: white;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+            width: 250px;
+            height: 200px;
+        }
+
+        .app:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .app img {
+            width: 240px;
+            height: 180px;
+            margin-bottom: 5px;
+        }
+
+        .app div {
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+
+        /* Back Button */
+        .back-button {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 8px 15px; /* Smaller padding */
+            border: 2px solid white;
+            border-radius: 5px;
+            color: white;
+            background-color: #333;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .back-button:hover {
+            background-color: white;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <!-- Logout Button -->
+    <a href="/logout" class="logout-button">Logout</a>
+
+    <h1>Food Delivery Apps</h1>
+    <div class="apps-container">
+        <!-- Zomato -->
+        <div class="app" onclick="window.location.href='/zomato'">
+            <img src="{{ url_for('static', filename='logos/zomato.png') }}" alt="Zomato">
+            <div>Zomato</div>
+        </div>
+
+        <!-- Swiggy -->
+        <div class="app" onclick="window.location.href='/swiggy'">
+            <img src="{{ url_for('static', filename='logos/swiggy.png') }}" alt="Swiggy">
+            <div>Swiggy</div>
+        </div>
+
+        <!-- Uber Eats -->
+        <div class="app" onclick="window.location.href='/ubereats'">
+            <img src="{{ url_for('static', filename='logos/ubareats.png') }}" alt="Uber Eats">
+            <div>Uber Eats</div>
+        </div>
+
+        <!-- EatSure -->
+        <div class="app" onclick="window.location.href='/eatsure'">
+            <img src="{{ url_for('static', filename='logos/eatsure.png') }}" alt="EatSure">
+            <div>EatSure</div>
+        </div>
+
+        <!-- Zepto -->
+        <div class="app" onclick="window.location.href='/zepto'">
+            <img src="{{ url_for('static', filename='logos/zepto.png') }}" alt="Zepto">
+            <div>Zepto</div>
+        </div>
+    </div>
+
+    <!-- Back Button -->
+    <a href="/dashboard" class="back-button">Back</a>
+</body>
+</html>

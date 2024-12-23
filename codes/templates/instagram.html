@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram FAQ Chatbot</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+    
+        .chat-container {
+            background-color: white;
+            border-radius: 8px;
+            width: 90%; /* Adjusts to 90% of screen width */
+            max-width: 500px; /* Maximum width for larger screens */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+    
+        .chat-header {
+            background-color: #007bff;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 1.5rem; /* Increased font size */
+            font-weight: bold;
+        }
+    
+        .chat-box {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+            max-height: 60vh; /* Adjusts height to fit the screen dynamically */
+            border-bottom: 1px solid #ddd;
+            background-color: #f9f9f9;
+            display: flex;
+            flex-direction: column;
+            font-size: 1rem; /* Increased font size */
+        }
+    
+        .chatbot-button {
+            position: fixed; /* Fixed position to stay in the same place on scroll */
+            bottom: 90px; /* Distance from the bottom */
+            right: 90px; /* Distance from the right */
+            background-color: #007bff; /* Button color */
+            color: white; /* Text color */
+            padding: 15px 20px; /* Padding for the button */
+            border-radius: 50px; /* Rounded corners */
+            text-align: center; /* Center text */
+            text-decoration: none; /* Remove underline */
+            font-size: 1rem; /* Font size */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Shadow for depth */
+            transition: background-color 0.3s ease, transform 0.3s ease; /* Transition effects */
+        }
+    
+        .chatbot-button:hover {
+            background-color: #0056b3; /* Darker shade on hover */
+            transform: scale(1.05); /* Slightly enlarge on hover */
+        }
+    
+        .chat-box div {
+            margin-bottom: 15px;
+            padding: 12px;
+            border-radius: 5px;
+            max-width: 80%;
+            word-wrap: break-word;
+        }
+    
+        .user-msg {
+            background-color: #d1e7ff;
+            align-self: flex-end;
+            text-align: right;
+            font-size: 1.2rem; /* Increased font size for user messages */
+        }
+    
+        .ai-msg {
+            background-color: #e9ecef;
+            align-self: flex-start;
+            text-align: left;
+            font-size: 1.2rem; /* Increased font size for AI responses */
+        }
+    
+        select, input[type="text"], button {
+            padding: 12px; /* Increased padding for better touchability */
+            margin: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem; /* Increased font size */
+            width: calc(100% - 20px);
+        }
+    
+        button {
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            font-size: 1.2rem; /* Increased button font size */
+            transition: background-color 0.3s ease;
+        }
+    
+        button:hover {
+            background-color: #0056b3;
+        }
+    
+        .back-link {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 8px 15px; /* Smaller padding */
+            border: 2px solid white;
+            border-radius: 5px;
+            color: white;
+            background-color: #333;
+            transition: background-color 0.3s, color 0.3s;
+        }
+    
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    
+        .chat-container input:focus, .chat-container button:focus, .chat-container select:focus {
+            outline: none;
+        }
+    
+        @media (max-width: 600px) {
+            .chat-box {
+                padding: 15px; /* Reduce padding on smaller screens */
+            }
+    
+            button {
+                font-size: 1rem; /* Adjust button font size for smaller screens */
+            }
+    
+            .chat-header {
+                font-size: 1.2rem; /* Adjust header font size */
+            }
+    
+            .user-msg, .ai-msg {
+                font-size: 1.1rem; /* Adjust message font size for smaller screens */
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="chat-container">
+    <!-- Back Link -->
+    <a href="/dashboard" class="back-link">Back</a>
+
+    <div class="chat-header">Instagram FAQ Chatbot</div>
+
+    <div class="chat-box" id="chat-box">
+        <!-- Chat messages will be displayed here -->
+    </div>
+
+    <!-- Select FAQ or input message -->
+    <select id="faq-dropdown" onchange="displayFAQ()">
+        <option value="">Select a question...</option>
+        <!-- Questions will be added dynamically -->
+      </select>
+    
+    <input type="text" id="user-input" placeholder="Ask me anything..." />
+    <button id="send-button" onclick="submitQuestion()">Send</button>
+
+    <a href="/social_media" class="back-link">Back to Social Media</a>
+    <a href="/social_media_chatbot" class="chatbot-button">Chat with us!</a>
+</div>
+
+<script>
+    // FAQ data in JavaScript
+    const faqData = [
+    { question: "How to change my profile picture?", answer: "To change your profile picture, go to your profile, tap on 'Edit Profile', and select 'Change Profile Photo'." },
+    { question: "How to add followers?", answer: "To add followers, search for people in the search bar and tap 'Follow' on their profile." },
+    { question: "How to delete a post?", answer: "To delete a post, tap the three dots on the post and select 'Delete'." },
+    { question: "How to post a story?", answer: "To post a story, tap the camera icon at the top of your feed, take a photo or video, and tap 'Your Story' to share." }
+];
+
+    // Dynamically populate the FAQ dropdown
+    const faqDropdown = document.getElementById('faq-dropdown');
+    faqData.forEach(item => {
+        const option = document.createElement('option');
+        option.value = item.question;
+        option.textContent = item.question;
+        faqDropdown.appendChild(option);
+    });
+
+    // Function to handle the submit action when user sends a question
+    function submitQuestion() {
+        var userInput = document.getElementById('user-input').value;
+        if (userInput.trim() !== '') {
+            addUserMessage(userInput); // Add user message to chat
+            // Send question to the Flask API and get the bot's response
+            fetch('/facebook_webhook', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ message: userInput })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message) {
+                    addBotMessage(data.message); // Display the bot response
+                } else {
+                    addBotMessage("Sorry, I couldn't understand that."); // Handle errors
+                }
+            })
+            .catch(error => {
+                addBotMessage("Error: " + error.message); // Handle any errors
+            });
+        }
+    }
+
+    // Handle selection from FAQ dropdown
+    document.getElementById('faq-dropdown').addEventListener('change', function() {
+        const selectedQuestion = this.value;
+        if (selectedQuestion) {
+            addUserMessage(selectedQuestion); // Display the selected question
+            fetch('/facebook_webhook', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ message: selectedQuestion })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message) {
+                    addBotMessage(data.message); // Display the bot's response
+                }
+            });
+        }
+    });
+
+    // Function to add user message to the chat box
+    function addUserMessage(message) {
+        var chatBox = document.getElementById('chat-box');
+        var userMessage = document.createElement('div');
+        userMessage.classList.add('user-msg');
+        userMessage.textContent = message;
+        chatBox.appendChild(userMessage);
+        document.getElementById('user-input').value = ''; // Clear input field
+        document.getElementById('faq-dropdown').value = ''; // Clear dropdown
+        chatBox.scrollTop = chatBox.scrollHeight; // Scroll to the latest message
+    }
+
+    // Function to add bot message to the chat box
+    function addBotMessage(message) {
+        var chatBox = document.getElementById('chat-box');
+        var botMessage = document.createElement('div');
+        botMessage.classList.add('ai-msg');
+        botMessage.textContent = message;
+        chatBox.appendChild(botMessage);
+        chatBox.scrollTop = chatBox.scrollHeight; // Scroll to the latest message
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .profile-card {
+            background: #fff;
+            color: #333;
+            width: 400px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .profile-header {
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            padding: 40px 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .profile-header .avatar {
+            width: 100px;
+            height: 100px;
+            background: #fff;
+            border-radius: 50%;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: 600;
+            color: #2575fc;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .profile-header h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #fff;
+            margin-top: 70px;
+        }
+
+        .profile-header p {
+            font-size: 1rem;
+            margin: 0;
+            color: #e0e0e0;
+        }
+
+        .profile-details {
+            padding: 20px 30px;
+        }
+
+        .profile-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            font-size: 1rem;
+            font-weight: 400;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .profile-item:last-child {
+            border-bottom: none;
+        }
+
+        .profile-item:hover {
+            color: #2575fc;
+        }
+
+        .profile-item span:first-child {
+            font-weight: 600;
+            color: #555;
+        }
+
+        .profile-footer {
+            background: #f9f9f9;
+            text-align: center;
+            padding: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .profile-footer button {
+            background: #2575fc;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .profile-footer button:hover {
+            background: #6a11cb;
+            transform: scale(1.05);
+        }
+
+        .profile-footer button:focus {
+            outline: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="profile-card">
+        <div class="profile-header">
+            <div class="avatar">T</div>
+            <h1 id="profileName">Loading...</h1>
+            <p id="profileUsername">@username</p>
+        </div>
+        <div class="profile-details" id="profileDetails">
+            <!-- Profile details will be dynamically injected here -->
+        </div>
+        <div class="profile-footer">
+            <button onclick="window.location.href='/dashboard'">Go to Dashboard</button>
+        </div>
+    </div>
+
+    <script>
+        // Automatically fetch profile details when the page loads
+        window.onload = async function () {
+            try {
+                const response = await fetch('/profile');
+                const data = await response.json();
+
+                const profileName = document.getElementById('profileName');
+                const profileUsername = document.getElementById('profileUsername');
+                const profileDetails = document.getElementById('profileDetails');
+
+                profileDetails.innerHTML = ''; // Clear previous results
+
+                if (data.error) {
+                    profileName.textContent = "Error!";
+                    profileUsername.textContent = data.error;
+                    return;
+                }
+
+                // Set name and username in header
+                profileName.textContent = data.name || "Unknown User";
+                profileUsername.textContent = `@${data.username}`;
+
+                // Add other profile details
+                for (const [key, value] of Object.entries(data)) {
+                    if (key !== 'username' && key !== 'name') {
+                        const profileItem = document.createElement('div');
+                        profileItem.classList.add('profile-item');
+                        profileItem.innerHTML = `
+                            <span>${key.charAt(0).toUpperCase() + key.slice(1)}:</span>
+                            <span>${value}</span>
+                        `;
+                        profileDetails.appendChild(profileItem);
+                    }
+                }
+            } catch (error) {
+                const profileName = document.getElementById('profileName');
+                const profileUsername = document.getElementById('profileUsername');
+
+                profileName.textContent = "Error!";
+                profileUsername.textContent = "An error occurred while fetching profile details.";
+                console.error('Error:', error);
+            }
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Job Question Answering System</title>
+  <style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f4f7fa;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+
+    .chat-container {
+        background-color: white;
+        border-radius: 8px;
+        width: 90%;
+        max-width: 500px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .chat-header {
+        background-color: #e91e63; /* Naukri's branding color */
+        color: white;
+        padding: 15px;
+        text-align: center;
+        font-size: 1.6rem;
+        font-weight: bold;
+    }
+
+    .chat-box {
+        flex-grow: 1;
+        padding: 20px;
+        overflow-y: auto;
+        max-height: 60vh;
+        border-bottom: 1px solid #ddd;
+        background-color: #f9f9f9;
+        display: flex;
+        flex-direction: column;
+        font-size: 1rem;
+    }
+
+    .chatbot-button {
+        position: fixed;
+        bottom: 90px;
+        right: 90px;
+        background-color: #e91e63;
+        color: white;
+        padding: 15px 20px;
+        border-radius: 50px;
+        text-align: center;
+        text-decoration: none;
+        font-size: 1rem;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .chatbot-button:hover {
+        background-color: #c2185b; /* Darker shade on hover */
+        transform: scale(1.05);
+    }
+
+    .chat-box div {
+        margin-bottom: 15px;
+        padding: 12px;
+        border-radius: 5px;
+        max-width: 80%;
+        word-wrap: break-word;
+    }
+
+    .user-msg {
+        background-color: #d1e7ff;
+        align-self: flex-end;
+        text-align: right;
+        font-size: 1.2rem;
+    }
+
+    .ai-msg {
+        background-color: #e9ecef;
+        align-self: flex-start;
+        text-align: left;
+        font-size: 1.2rem;
+    }
+
+    select, input[type="text"], button {
+        padding: 12px;
+        margin: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 1rem;
+        width: calc(100% - 20px);
+    }
+
+    button {
+        background-color: #e91e63;
+        color: white;
+        cursor: pointer;
+        font-size: 1.2rem;
+        transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+        background-color: #c2185b;
+    }
+
+    .back-link {
+        position: absolute;
+            top: 30px;
+            left: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 8px 15px;
+            border: 2px solid white;
+            border-radius: 5px;
+            color: white;
+            background-color: #333;
+            transition: background-color 0.3s, color 0.3s;
+    }
+
+    .back-link:hover {
+        text-decoration: underline;
+    }
+
+    .chat-container input:focus, .chat-container button:focus, .chat-container select:focus {
+        outline: none;
+    }
+
+    @media (max-width: 600px) {
+        .chat-box {
+            padding: 15px;
+        }
+
+        button {
+            font-size: 1rem;
+        }
+
+        .chat-header {
+            font-size: 1.2rem;
+        }
+
+        .user-msg, .ai-msg {
+            font-size: 1.1rem;
+        }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="chat-container">
+    <div class="chat-header">
+      Naukri Chatbot
+    </div>
+    <div class="chat-box" id="chatbox">
+      <!-- Chat messages will be displayed here -->
+    </div>
+
+    <select id="faq-dropdown" onchange="displayFAQ()">
+      <option value="">Select a question...</option>
+      <option value="0">What is Naukri?</option>
+      <option value="1">How do I apply for a job on Naukri?</option>
+      <option value="2">How do I update my Naukri profile?</option>
+    </select>
+
+    <input type="text" id="user-input" placeholder="Ask me anything about Naukri..." />
+
+    <button onclick="submitQuestion()">Send</button>
+    <a href="/job" class="back-link">Back to Jobs</a>
+  </div>
+
+  <a href="/jobs_chatbot" class="chatbot-button">Chat with us!</a>
+
+  <script>
+    // Predefined FAQ data
+    const faqData = [
+      { question: "What is Naukri?", answer: "Naukri is one of India's largest job portals, offering job search and recruitment services." },
+      { question: "How do I apply for a job on Naukri?", answer: "You can apply for jobs by creating your profile and applying directly through job listings on Naukri." },
+      { question: "How do I update my Naukri profile?", answer: "Go to your profile page and click 'Edit' to update sections like experience, skills, and education." },
+    ];
+
+    const chatbox = document.getElementById('chatbox');
+    const dropdown = document.getElementById('faq-dropdown');
+    const userInput = document.getElementById('user-input');
+
+    // Display FAQ when dropdown value is selected
+    function displayFAQ() {
+      const selectedIndex = dropdown.value;
+      if (selectedIndex !== '') {
+        const selectedItem = faqData[selectedIndex];
+        addMessage(selectedItem.question, 'user-msg');
+        addMessage(selectedItem.answer, 'ai-msg');
+        dropdown.value = '';
+      }
+    }
+
+    // Add a message to the chatbox
+    function addMessage(content, className) {
+      const message = document.createElement('div');
+      message.className = className;
+      message.textContent = content;
+      chatbox.appendChild(message);
+      chatbox.scrollTop = chatbox.scrollHeight;
+    }
+
+    // Handle the question submission
+    function submitQuestion() {
+      const question = userInput.value.trim();
+
+      if (question === '') {
+        alert("Please enter a question.");
+        return;
+      }
+
+      // Display user question in the chatbox
+      addMessage(question, 'user-msg');
+
+      // Send the question to backend for processing
+      fetch('/get_job_answer', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ question: question }) // Send question as JSON
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.answer) {
+          addMessage(data.answer, 'ai-msg'); // Display the AI's answer
+        } else {
+          addMessage("Sorry, I couldn't find an answer.", 'ai-msg'); // Display fallback message
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        addMessage("Sorry, I couldn't process your question.", 'ai-msg'); // Error message
+      });
+
+      // Clear input field after submission
+      userInput.value = '';
+    }
+  </script>
+
+</body>
+</html>

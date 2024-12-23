@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simplilearn Course Assistant</title>
+  <style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f4f7fa;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+
+    .chat-container {
+        background-color: white;
+        border-radius: 8px;
+        width: 90%;
+        max-width: 500px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .chat-header {
+        background-color: #007bff;
+        color: white;
+        padding: 15px;
+        text-align: center;
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+
+    .chat-box {
+        flex-grow: 1;
+        padding: 20px;
+        overflow-y: auto;
+        max-height: 60vh;
+        border-bottom: 1px solid #ddd;
+        background-color: #f9f9f9;
+        display: flex;
+        flex-direction: column;
+        font-size: 1rem;
+    }
+
+    .chat-box div {
+        margin-bottom: 15px;
+        padding: 12px;
+        border-radius: 5px;
+        max-width: 80%;
+        word-wrap: break-word;
+    }
+
+    .user-msg {
+        background-color: #d1ecf1;
+        align-self: flex-end;
+        text-align: right;
+    }
+
+    .ai-msg {
+        background-color: #e9ecef;
+        align-self: flex-start;
+        text-align: left;
+    }
+
+    select, input[type="text"], button {
+        padding: 12px;
+        margin: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 1rem;
+        width: calc(100% - 20px);
+    }
+
+    button {
+        background-color: #007bff;
+        color: white;
+        cursor: pointer;
+        font-size: 1.2rem;
+        transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+
+    .chat-container input:focus, .chat-container button:focus, .chat-container select:focus {
+        outline: none;
+    }
+    .chatbot-button {
+        position: fixed;
+        bottom: 90px;
+        right: 90px;
+        background-color: #e50914;
+        color: white;
+        padding: 15px 20px;
+        border-radius: 50px;
+        text-align: center;
+        text-decoration: none;
+        font-size: 1rem;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+.chatbot-button:hover {
+    background-color: #1e5bb3; /* Darker shade on hover */
+    transform: scale(1.05); /* Slightly enlarge on hover */
+}
+
+    .back-link {
+        position: absolute;
+            top: 30px;
+            left: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 8px 15px; /* Smaller padding */
+            border: 2px solid white;
+            border-radius: 5px;
+            color: white;
+            background-color: #333;
+            transition: background-color 0.3s, color 0.3s;
+    }
+
+    .back-link:hover {
+        text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="chat-container">
+    <div class="chat-header">
+      Simplilearn Course Assistant
+    </div>
+    <div class="chat-box" id="chatbox">
+      <!-- Chat messages will be displayed here -->
+    </div>
+    <select id="faq-dropdown" onchange="displayFAQ()">
+      <option value="">Select a question...</option>
+      <option value="0">What is Simplilearn?</option>
+      <option value="1">How can I access my purchased course?</option>
+      <option value="2">What are the available payment options?</option>
+    </select>
+    <input type="text" id="user-input" placeholder="Ask me anything about Simplilearn courses..." />
+    <button onclick="submitQuestion()">Send</button>
+    
+    <a href="/learning" class="back-link">Back to learning</a>
+  <a href="/learn_chatbot" class="chatbot-button">Chat with us!</a>
+  </div>
+
+  <script>
+    const faqAnswers = [
+      "Simplilearn is an online learning platform that offers professional certification courses in various domains like IT, Data Science, and more.",
+      "To access your purchased course, log in to your account, go to the 'My Courses' section, and start learning.",
+      "Simplilearn accepts payments through credit/debit cards, net banking, PayPal, and other region-specific payment methods."
+    ];
+
+    const chatbox = document.getElementById('chatbox');
+
+    // Display FAQ
+    function displayFAQ() {
+      const selectedIndex = document.getElementById('faq-dropdown').value;
+      if (selectedIndex !== '') {
+        const question = document.querySelector(`#faq-dropdown option[value="${selectedIndex}"]`).textContent;
+        const answer = faqAnswers[selectedIndex];
+        addMessage(question, 'user-msg');
+        addMessage(answer, 'ai-msg');
+        document.getElementById('faq-dropdown').value = '';
+      }
+    }
+
+    function addMessage(content, className) {
+      const message = document.createElement('div');
+      message.className = className;
+      message.textContent = content;
+      chatbox.appendChild(message);
+      chatbox.scrollTop = chatbox.scrollHeight;
+    }
+
+    function submitQuestion() {
+      const userInput = document.getElementById('user-input').value.trim();
+      if (userInput === '') return;
+
+      addMessage(userInput, 'user-msg');
+
+      fetch('/semantic_search', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ question: userInput }),
+      })
+        .then(response => response.json())
+        .then(data => {
+          addMessage(data.answer, 'ai-msg');
+          document.getElementById('user-input').value = '';
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          addMessage("Sorry, I couldn't process your request. Please try again later.", 'ai-msg');
+        });
+    }
+  </script>
+</body>
+</html>
