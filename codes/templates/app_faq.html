@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ app_name | capitalize }} FAQs</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .faq {
+            margin: 20px 0;
+        }
+
+        .faq h3 {
+            cursor: pointer;
+            color: blue;
+            text-decoration: underline;
+        }
+
+        .faq p {
+            display: none; /* Hide answer by default */
+        }
+    </style>
+    <script>
+        function toggleAnswer(id) {
+            const answer = document.getElementById(id);
+            answer.style.display = answer.style.display === 'none' ? 'block' : 'none';
+        }
+    </script>
+</head>
+<body>
+    <h1>{{ app_name | capitalize }} FAQs</h1>
+    <div>
+        {% for faq in faqs %}
+            <div class="faq">
+                <h3 onclick="toggleAnswer('answer-{{ loop.index }}')">{{ faq.question }}</h3>
+                <p id="answer-{{ loop.index }}">{{ faq.answer }}</p>
+            </div>
+        {% else %}
+            <p>No FAQs available for this app.</p>
+        {% endfor %}
+    </div>
+    <a href="/shopping">Back to Shopping</a>
+    <a href="/logout">Logout</a>
+</body>
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Apps</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #f6f7f5, #fda085);
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            margin: 20px 0;
+            color: #333;
+            font-size: 2rem;
+        }
+
+        /* Logout Button */
+        .logout-button {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 10px 20px;
+            border: 2px solid white;
+            border-radius: 5px;
+            color: white;
+            background-color: #333;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .logout-button:hover {
+            background-color: white;
+            color: #333;
+        }
+
+        .apps-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .app {
+            text-align: center;
+            background-color: white;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+            width: 250px;
+            height: 200px;
+        }
+
+        .app:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .app img {
+            width: 240px;
+            height: 180px;
+            margin-bottom: 5px;
+        }
+
+        .app div {
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+
+        /* Back Button */
+        .back-button {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 8px 15px; /* Smaller padding */
+            border: 2px solid white;
+            border-radius: 5px;
+            color: white;
+            background-color: #333;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .back-button:hover {
+            background-color: white;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <!-- Logout Button -->
+    <a href="/logout" class="logout-button">Logout</a>
+
+    <h1>Payment Apps</h1>
+    <div class="apps-container">
+        <!-- PhonePe -->
+        <div class="app" onclick="window.location.href='/phonepe'">
+            <img src="{{ url_for('static', filename='logos/phonepe.png') }}" alt="PhonePe">
+            <div>PhonePe</div>
+        </div>
+
+        <!-- Paytm -->
+        <div class="app" onclick="window.location.href='/paytm'">
+            <img src="{{ url_for('static', filename='logos/paytm.png') }}" alt="Paytm">
+            <div>Paytm</div>
+        </div>
+
+        <!-- Google Pay (GPay) -->
+        <div class="app" onclick="window.location.href='/gpay'">
+            <img src="{{ url_for('static', filename='logos/gpay.png') }}" alt="Google Pay">
+            <div>Google Pay</div>
+        </div>
+
+        <!-- PayPal -->
+        <div class="app" onclick="window.location.href='/paypal'">
+            <img src="{{ url_for('static', filename='logos/paypal.png') }}" alt="PayPal">
+            <div>PayPal</div>
+        </div>
+
+        <!-- Razer Pay -->
+        <div class="app" onclick="window.location.href='/razerpay'">
+            <img src="{{ url_for('static', filename='logos/razerpay.png') }}" alt="Razer Pay">
+            <div>Razer Pay</div>
+        </div>
+    </div>
+
+    <!-- Back Button -->
+    <a href="/dashboard" class="back-button">Back</a>
+</body>
+</html>

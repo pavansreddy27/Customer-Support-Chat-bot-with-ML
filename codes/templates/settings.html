@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--background-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        :root {
+            --background-color: #f9f9f9;
+            --text-color: #333;
+            --card-background: #fff;
+            --button-background: #2575fc;
+            --button-hover: #6a11cb;
+        }
+
+        body.dark {
+            --background-color: #121212;
+            --text-color: #fff;
+            --card-background: #1e1e1e;
+            --button-background: #6a11cb;
+            --button-hover: #2575fc;
+        }
+
+        .settings-container {
+            background: var(--card-background);
+            width: 400px;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .settings-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .settings-header h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+
+        .settings-item {
+            margin-bottom: 20px;
+        }
+
+        .settings-item label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+
+        .settings-item select, .settings-item button {
+            width: 100%;
+            padding: 10px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+            outline: none;
+            transition: 0.3s ease;
+        }
+
+        select {
+            background: var(--card-background);
+            color: var(--text-color);
+            border: 1px solid #ccc;
+        }
+
+        .settings-item button {
+            background: var(--button-background);
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .settings-item button:hover {
+            background: var(--button-hover);
+        }
+
+        .settings-footer {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .settings-footer button {
+            background: transparent;
+            color: var(--button-background);
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+            text-decoration: underline;
+        }
+
+        .settings-footer button:hover {
+            color: var(--button-hover);
+        }
+    </style>
+</head>
+<body>
+    <div class="settings-container">
+        <div class="settings-header">
+            <h1>Settings</h1>
+        </div>
+
+        <!-- Theme Setting -->
+        <div class="settings-item">
+            <label for="theme">Theme</label>
+            <select id="theme" onchange="changeTheme(this.value)">
+                <option value="light">Light Mode</option>
+                <option value="dark">Dark Mode</option>
+            </select>
+        </div>
+
+        <!-- Placeholder for other settings -->
+        <div class="settings-item">
+            <label for="notifications">Notifications</label>
+            <select id="notifications">
+                <option value="enabled">Enabled</option>
+                <option value="disabled">Disabled</option>
+            </select>
+        </div>
+
+        <!-- Save Button -->
+        <div class="settings-item">
+            <button onclick="saveSettings()">Save Settings</button>
+        </div>
+
+        <!-- Footer -->
+        <div class="settings-footer">
+            <button onclick="window.location.href='/dashboard'">Go Back to Dashboard</button>
+        </div>
+    </div>
+
+    <script>
+        // Change the theme dynamically
+        function changeTheme(theme) {
+            if (theme === 'dark') {
+                document.body.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                document.body.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        // Save settings (for now, just a mock function)
+        function saveSettings() {
+            alert('Settings saved successfully!');
+        }
+
+        // Load previously saved theme on page load
+        window.onload = function () {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.getElementById('theme').value = savedTheme;
+            changeTheme(savedTheme);
+        };
+    </script>
+</body>
+</html>

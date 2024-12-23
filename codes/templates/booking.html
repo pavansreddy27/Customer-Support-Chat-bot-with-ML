@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Apps</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #f6f7f5, #fda085);
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            margin: 20px 0;
+            color: #333;
+            font-size: 2rem; /* Smaller font size */
+        }
+
+        /* Logout Button */
+        .logout-button {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 8px 15px; /* Smaller padding */
+            border: 2px solid white;
+            border-radius: 5px;
+            color: white;
+            background-color: #333;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .logout-button:hover {
+            background-color: white;
+            color: #333;
+        }
+
+        .apps-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px; /* Reduced gap between apps */
+            padding: 20px;
+        }
+
+        .app {
+            text-align: center;
+            background-color: white;
+            border-radius: 10px; /* Slightly rounded corners */
+            padding: 15px; /* Reduced padding */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Lighter shadow */
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+            width: 240px; /* Smaller card width */
+            height: 240px; /* Smaller card height */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .app:hover {
+            transform: translateY(-5px); /* Slight hover effect */
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Slightly stronger hover shadow */
+        }
+
+        .app img {
+            width: 220px; /* Smaller image size */
+            height: 220px; /* Smaller image size */
+            margin-bottom: 5px; /* Reduced space between image and text */
+        }
+
+        .app div {
+            font-size: 1.1rem; /* Smaller font size */
+            font-weight: bold;
+            color: #333;
+        }
+
+        /* Back Button */
+        .back-button {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 8px 15px; /* Smaller padding */
+            border: 2px solid white;
+            border-radius: 5px;
+            color: white;
+            background-color: #333;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .back-button:hover {
+            background-color: white;
+            color: #333;
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Logout Button -->
+    <a href="/logout" class="logout-button">Logout</a>
+
+    <h1>Booking Apps</h1>
+    <div class="apps-container">
+        <!-- Goibibo -->
+        <div class="app" onclick="window.location.href='/goibibo'">
+            <img src="{{ url_for('static', filename='logos/goibibo.png') }}" alt="Goibibo">
+            <div>Goibibo</div>
+        </div>
+
+        <!-- Make My Trip -->
+        <div class="app" onclick="window.location.href='/MMT'">
+            <img src="{{ url_for('static', filename='logos/MMT.png') }}" alt="Make My Trip">
+            <div>Make My Trip</div>
+        </div>
+
+        <!-- Booking.com -->
+        <div class="app" onclick="window.location.href='/bc'">
+            <img src="{{ url_for('static', filename='logos/bc.png') }}" alt="Booking.com">
+            <div>Booking.com</div>
+        </div>
+
+        <!-- Ixigo -->
+        <div class="app" onclick="window.location.href='/ixigo'">
+            <img src="{{ url_for('static', filename='logos/ixigo.png') }}" alt="Ixigo">
+            <div>Ixigo</div>
+        </div>
+
+        <!-- Ease My Trip -->
+        <div class="app" onclick="window.location.href='/EMT'">
+            <img src="{{ url_for('static', filename='logos/EMT.png') }}" alt="Ease My Trip">
+            <div>Ease My Trip</div>
+        </div>
+    </div>
+
+    <!-- Back Button -->
+    <a href="/dashboard" class="back-button">Back</a>
+</body>
+</html>
