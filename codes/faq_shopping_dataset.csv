@@ -1,0 +1,18 @@
+Category,Question,Answer
+Account Management,How do I create an account?,"Go to the app's homepage, click 'Sign Up,' enter your email and password, and complete the registration."
+Account Management,How do I reset my password?,"Click on 'Forgot Password' on the login page, enter your email, and follow the link sent to reset your password."
+Account Management,Can I delete my account?,"Yes, go to 'Account Settings,' select 'Delete Account,' and confirm your choice."
+Subscriptions,What is the benefit of a premium subscription?,"Premium subscription provides free shipping, exclusive discounts, and early access to sales."
+Subscriptions,How do I cancel my subscription?,"Navigate to 'Subscriptions,' select 'Manage,' and click on 'Cancel Subscription' to stop renewal."
+Settings,How do I update my email address?,"Go to 'Account Settings,' edit your email address, and save the changes."
+Settings,How can I change my notification preferences?,"Under 'Settings,' choose 'Notifications' and customize the types of alerts you wish to receive."
+Orders,How do I track my order?,"Visit 'My Orders,' select the order, and click 'Track' to see its status."
+Orders,Can I cancel an order after placing it?,"Yes, cancellations are allowed before the order is shipped. Go to 'My Orders' and select 'Cancel Order.'"
+Payments,What payment methods are accepted?,"We accept credit/debit cards, net banking, and popular digital wallets."
+Payments,How do I apply a discount code?,Enter your discount code during checkout in the 'Promo Code' section and click 'Apply.'
+Shipping,How long does shipping take?,"Standard shipping takes 5-7 business days, while express shipping delivers in 1-3 business days."
+Shipping,How can I change my shipping address?,"Before your order is shipped, go to 'My Orders,' select the order, and click 'Edit Shipping Address.'"
+Returns,What is the return policy?,Items can be returned within 30 days of delivery. They must be unused and in their original packaging.
+Returns,How do I initiate a return?,"Go to 'My Orders,' select the item, and click 'Return' to start the process."
+Notifications,How do I stop receiving promotional emails?,Scroll to the bottom of a promotional email and click 'Unsubscribe' to stop receiving them.
+Technical Support,The app is not working properly. What should I do?,"Ensure your internet connection is stable, clear the app's cache, and try restarting it."
